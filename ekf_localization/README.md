@@ -1,4 +1,4 @@
-# ekf_localization, click [here] (https://github.com/guilhermelawless/ekf_localization/tree/master)
+# ekf_localization
 A ROS package for mobile robot localization using an extended Kalman Filter
 
 ## Description
