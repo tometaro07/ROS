@@ -6,7 +6,7 @@ If you are as lost as I was when I entered this class follow this guide
 Getting Started
 ===========
 
-1. Install the ros distribution that you want (preferebly ros kinetic http://wiki.ros.org/kinetic/Installation/Ubuntu , with desktop-full)
+1. Install the ros distribution that you want (preferebly ros kinetic [http://wiki.ros.org/kinetic/Installation/Ubuntu] , with desktop-full, if you couldn't install it go with ros melodic [http://wiki.ros.org/melodic/Installation/Ubuntu])
 
 2. Navigate to Home folder using:
 
