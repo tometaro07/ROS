@@ -21,3 +21,6 @@ Whenever the repo is updated you can get the latest updates with:
             cd $HOME/autonomous_system
             git pull origin master
             
+            
+Creating a workspace and installing most of what you will need
+===================
