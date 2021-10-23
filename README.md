@@ -7,17 +7,12 @@ Guide to Introduction to Robotics
 
             cd
 
-
-
-
-
-
-
-
-
-
 3. Clone this repository (usually to clone a repository you do: git clone <git repository link>):
 
             git clone https://github.com/socrob/autonomous_systems.git
             
+Whenever the repo is updated you can get the latest updates with:
+        
+            cd $HOME/autonomous_system
+            git pull origin master
             
