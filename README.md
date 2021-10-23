@@ -12,7 +12,7 @@ Getting Started
 
             cd
 
-3. Clone this repository (usually to clone a repository you do: git clone <git repository link>):
+3. Clone this repository (usually to clone a repository you do: git clone git_link):
 
             git clone https://github.com/socrob/autonomous_systems.git
             
@@ -24,3 +24,19 @@ Whenever the repo is updated you can get the latest updates with:
             
 Creating a workspace and installing most of what you will need
 ===================
+
+1. Create a folder for your ros workspace in your system:
+
+        mkdir -p ~/catkin_ws
+
+3.Clone this git!!:
+
+            git clone https://github.com/tometaro07/src.git
+
+2. Install python catkin tools (to be able to compile with the new catkin build system, instead of catkin_make which is the old one)
+
+        sudo apt-get install python-catkin-tools
+
+3. Source (enable) ROS on your system (only one time, this line should not be there on your .bashrc as it will be bashed by the scripts structure)
+
+        source /opt/ros/kinetic/setup.bash
