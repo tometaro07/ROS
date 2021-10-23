@@ -40,3 +40,8 @@ Creating a workspace and installing most of what you will need
 3. Source (enable) ROS on your system (only one time, this line should not be there on your .bashrc as it will be bashed by the scripts structure)
 
             source /opt/ros/kinetic/setup.bash
+            
+4. Download the following packages:
+
+            sudo apt-get install ros-kinetic-tf2-*
+            sudo apt-get install ros-kinetic-hls-lfcd-lds-driver
