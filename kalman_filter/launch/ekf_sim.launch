@@ -1,0 +1,56 @@
+<?xml version="2.0" encoding="UTF-8"?>
+<launch>
+
+  <!-- Setup robot -->
+  <arg name="model" default="$(env TURTLEBOT3_MODEL)" doc="model type [burger, waffle, waffle_pi]"/>
+  
+  <!-- Gazebo -->
+    <arg name="x_pos" default="-2.0"/>
+    <arg name="y_pos" default="-0.5"/>
+    <arg name="z_pos" default="0.0"/>
+
+    <include file="$(find gazebo_ros)/launch/empty_world.launch">
+      <arg name="world_name" value="$(find turtlebot3_gazebo)/worlds/turtlebot3_world.world"/>
+      <arg name="paused" value="false"/>
+      <arg name="use_sim_time" value="true"/>
+      <arg name="gui" value="true"/>
+      <arg name="headless" value="false"/>
+      <arg name="debug" value="false"/>
+    </include>
+
+    <param name="robot_description" command="$(find xacro)/xacro --inorder $(find turtlebot3_description)/urdf/turtlebot3_$(arg model).urdf.xacro" />
+
+    <node pkg="gazebo_ros" type="spawn_model" name="spawn_urdf"  args="-urdf -model turtlebot3_$(arg model) -x $(arg x_pos) -y $(arg y_pos) -z $(arg z_pos) -param robot_description" />
+
+
+  <!-- Teleop -->
+    <param name="model" value="$(arg model)"/>
+
+    <!-- turtlebot3_teleop_key already has its own built in velocity smoother -->
+    <node pkg="turtlebot3_teleop" type="turtlebot3_teleop_key" name="turtlebot3_teleop_keyboard"  output="screen">
+    </node>
+
+  <!-- Connect transform cap>map and cap>odom  -->
+
+    <!-- rosrun turtlebot3_datasets publish_initial_tf.sh odom -->
+    <node pkg="tf2_ros" type="static_transform_publisher" name="map_to_odom" args="0 0 0 0 0 0 1 map odom" />
+
+  <!-- Map Server Arguments -->
+  <arg name="map_file" default="$(find monte_carlo)/maps/map1.yaml"/>
+  <node name="map_server" pkg="map_server" type="map_server" args="$(arg map_file)" /> 
+
+  <!-- RViz Launching -->
+    <include file="$(find turtlebot3_bringup)/launch/turtlebot3_remote.launch">
+      <arg name="model" value="$(arg model)"/>
+    </include>
+
+    <node name="rviz" pkg="rviz" type="rviz" args="-d $(find kalman_filter)/rviz/kalman_rviz.rviz"/>
+
+  <!-- EFK Node -->
+    <node pkg="robot_localization" type="ekf_localization_node" name="ekf_odom">
+      <rosparam command="load" file="$(find kalman_filter)/config/ekf_sim.yalm"/>
+      <remap from="odometry/filtered" to="odometry/filtered_odom" />
+    </node>
+
+
+</launch>
