@@ -46,7 +46,7 @@ Creating a workspace and installing most of what you will need
             sudo apt-get install ros-kinetic-tf2-*
             sudo apt-get install ros-kinetic-hls-lfcd-lds-driver
             sudo apt-get install ros-kinetic-navigation
-            sudo apt-get install ros-kinetic-robot-localization
+            sudo apt-get install ros-kinetic-robot-localization             #only if using melodic
             
             
 Helpful commands
