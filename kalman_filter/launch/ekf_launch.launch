@@ -1,0 +1,39 @@
+<?xml version="2.0" encoding="UTF-8"?>
+<launch>
+  <!-- Setup the robot -->
+
+    <!-- roslaunch turtlebot3_datasets turtlebot3_description.launch -->
+    <arg name="model" default="$(env TURTLEBOT3_MODEL)" doc="model type [burger, waffle, waffle_pi]"/>
+
+    <include file="$(find turtlebot3_bringup)/launch/includes/description.launch.xml">
+      <arg name="model" value="$(arg model)" />
+    </include>
+
+  <!-- Connect transform cap>map and map>odom  -->
+
+    <!-- rosrun turtlebot3_datasets publish_initial_tf.sh map--> 
+    <node pkg="tf2_ros" type="static_transform_publisher" name="cap_to_map" args="0.938610076904 1.27527832985 0.108558997512 0.000838993117213 -0.00332411960699 0.738267242908 0.674499690533 mocap map" />
+
+    <node pkg="tf2_ros" type="static_transform_publisher" name="map_to_odom" args="0 0 0 0 0 0 1 map odom" />
+
+  <!-- Map Server Arguments -->
+    <arg name="map_file" default="$(find turtlebot3_datasets)/data/map.yaml"/>
+    <node name="map_server" pkg="map_server" type="map_server" args="$(arg map_file)" /> 
+
+  <!-- RViz Launching -->
+    <include file="$(find turtlebot3_bringup)/launch/turtlebot3_remote.launch">
+      <arg name="model" value="$(arg model)"/>
+    </include>
+
+    <node name="rviz" pkg="rviz" type="rviz" args="-d $(find kalman_filter)/rviz/kalman_rviz.rviz"/>
+
+  <!-- EFK Node -->
+    <node pkg="robot_localization" type="ekf_localization_node" name="ekf_odom">
+      <rosparam command="load" file="$(find kalman_filter)/config/ekf_localization.yalm"/>
+      <remap from="odometry/filtered" to="odometry/filtered_odom" />
+    </node>
+
+  <!-- Rosbag -->
+  <node pkg="rosbag" type="play" name="player" output="screen" args="--clock --hz=60 -r 2 /home/tometaro/catkin_ws/src/turtlebot3_datasets/data/fixed_slam_easy.bag"/>
+
+</launch>
