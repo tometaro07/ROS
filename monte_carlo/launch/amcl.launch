@@ -1,0 +1,24 @@
+<?xml version="2.0" encoding="UTF-8"?>
+<launch>
+
+  <!-- Map Server Arguments -->
+  <arg name="map_file" default="$(find monte_carlo)/maps/map2.yaml"/>
+  <node name="map_server" pkg="map_server" type="map_server" args="$(arg map_file)" />
+  
+  <!-- RViz Launching -->
+  <arg name="model" default="$(env TURTLEBOT3_MODEL)" doc="model type [burger, waffle, waffle_pi]"/>
+
+  <include file="$(find turtlebot3_bringup)/launch/turtlebot3_remote.launch">
+    <arg name="model" value="$(arg model)"/>
+  </include>
+
+  <node name="rviz" pkg="rviz" type="rviz" args="-d $(find monte_carlo)/rviz/amcl_rviz.rviz"/>
+
+  <!-- AMCL -->
+  <node pkg="amcl" type="amcl" name="amcl_node">
+    <rosparam file="$(find monte_carlo)/config/amcl.yaml" command="load"/>
+  </node>
+
+  <node pkg="rosservice" type="rosservice" name="global_loc" args="call --wait /global_localization"/>
+
+</launch>
