@@ -1,0 +1,8 @@
+<?xml version="2.0" encoding="UTF-8"?>
+<launch>
+  <node pkg="action_planning" type="grid_reinforced.py" name="greedo" output="screen">
+    <param name="safe" value="False"/>
+  </node>
+
+  <node pkg="motion_planning" type="waypointo.py" name="we_know_da_wae" output="screen"/> 
+</launch>
