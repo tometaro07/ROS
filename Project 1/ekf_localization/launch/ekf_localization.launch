@@ -1,0 +1,41 @@
+<?xml version="1.0"?>
+<launch>
+  <!-- Map file path, without extensions -->
+  <!-- Use $(rospack find PACKAGE) -->
+  <arg name="map_file" default="$(find turtlebot3_datasets)/data/map" />
+
+  <!-- Disable if running online and not from a bag -->
+  <param name="use_sim_time" value="true" />
+
+
+  <!-- NODES -->
+   <!-- Connect transform cap>map and map>odom  -->
+
+    <!-- rosrun turtlebot3_datasets publish_initial_tf.sh map--> 
+    <node pkg="tf2_ros" type="static_transform_publisher" name="cap_to_map" args="0.938610076904 1.27527832985 0.108558997512 0.000838993117213 -0.00332411960699 0.738267242908 0.674499690533 mocap map" />
+
+    <node pkg="tf2_ros" type="static_transform_publisher" name="map_to_odom" args="0 0 0 0 0 0 1 map odom" />
+
+
+  <!-- Map server provides the map as a ROS topic and service-->
+  <node name="map_server" pkg="map_server" type="map_server" args="$(arg map_file).yaml" />
+
+  <!-- EKF Localization node, needs the map file as an argument for feature extraction -->
+  <node name="ekf_localization_node" pkg="ekf_localization" type="ekf_localization_node" output="screen" args="$(arg map_file).pgm">
+
+    <!-- Most parameters are loaded from this file -->
+    <rosparam file="$(find ekf_localization)/config/parameters.yaml" command="load" />
+
+    <!-- The base frame of the robot, where odometry is applied. Usuall base_link or base_footprint -->
+    <param name="base_frame_id" value="base_link"/>
+
+    <!-- The frame of the laser scanner. Usuall scan, base_scan, laser_link, etc. -->
+    <param name="laser_frame_id" value="base_scan"/>
+  </node>
+
+  <!-- Rviz visualization -->
+  <node name="rviz" pkg="rviz" type="rviz" args="-d $(find ekf_localization)/rviz/ekf.rviz" />
+  <!-- Rosbag -->
+  <node pkg="rosbag" type="play" name="player" output="screen" args="--clock --hz=60 -r 2 /home/tometaro/catkin_ws/src/turtlebot3_datasets/data/fixed_slam_easy.bag"/>  
+
+</launch>

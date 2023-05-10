@@ -1,0 +1,10 @@
+<?xml version="2.0" encoding="UTF-8"?>
+<launch>
+  <!-- Path -->
+  <node pkg="kalman_filter" type="path.py" name="path_base_link" output="screen">
+      <param name="frame_of_pose" value="/base_link"/>
+      <param name="path_decay" value="False"/>
+      <param name="path_decay_len" value="1000"/>
+  </node>
+
+</launch>
