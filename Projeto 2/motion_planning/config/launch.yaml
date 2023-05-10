@@ -1,0 +1,64 @@
+base_local_planner: dwa_local_planner/DWAPlannerROS
+
+# choosing whether to stop the costmap node when move_base is inactive
+shutdown_costmaps: false
+# cycle of control iteration (in Hz) that orders the speed command to the robot base
+controller_frequency: 3.0
+# maximum time (in seconds) that the controller will listen for control information before the space-clearing operation is performed
+controller_patience: 1.0
+# repetition cycle of global plan (in Hz)
+planner_frequency: 2.0
+# maximum amount of time (in seconds) to wait for an available plan before the space-clearing operation is performed
+planner_patience: 1.0
+# time (in sec) allowed to allow the robot to move back and forth before executing the recovery behavior.
+oscillation_timeout: 10.0
+# oscillation_timeout is initialized if you move the distance below the distance (in meter) that the robot should move so that it does not move back and forth.
+oscillation_distance: 0.2
+# Obstacles farther away from fixed distance are deleted on the map during costmap initialization of the restore operation
+conservative_reset_dist: 0.1
+
+DWAPlannerROS:
+# robot parameters
+ max_vel_x: 0.18
+ min_vel_x: -0.18
+ max_vel_y: 0.0
+ min_vel_y: 0.0
+ max_trans_vel: 0.18
+ min_trans_vel: 0.05
+# trans_stopped_vel: 0.01 # translation stop velocity(meter/sec)
+ max_rot_vel: 1.8
+ min_rot_vel: 0.7
+# rot_stopped_vel: 0.01 # rotation stop velocity (radian/sec)
+ acc_lim_x: 2.0
+ acc_lim_y: 0.0
+ acc_lim_theta: 2.0
+# Target point error tolerance
+ yaw_goal_tolerance: 0.15 #0.15, 6.30
+ xy_goal_tolerance: 0.05  #0.25, 0.05
+
+# Forward Simulation Parameter
+ sim_time: 3.5
+ vx_samples: 20
+ vy_samples: 0
+ vtheta_samples: 40
+# Trajectory scoring parameter (trajectory evaluation)
+# Score calculation used for the trajectory evaluation cost function is as follows.
+# cost =
+# path_distance_bias * (distance to path from the endpoint of the trajectory in meters)
+# + goal_distance_bias * (distance to local goal from the endpoint of the trajectory in meters)
+# + occdist_scale * (maximum obstacle cost along the trajectory in obstacle cost (0-254))
+ path_distance_bias: 34.0 #34.0
+ goal_distance_bias: 24.0
+ occdist_scale: 0.04
+ forward_point_distance: 0.325
+ stop_time_buffer: 0.2
+ scaling_speed: 0.25
+ max_scaling_factor: 0.2
+# Oscillation motion prevention paramter
+# distance the robot must move before the oscillation flag is reset
+ oscillation_reset_dist: 0.05
+# Debugging
+ publish_traj_pc: true
+ publish_cost_grid_pc: true
+ global_frame_id: odom
+

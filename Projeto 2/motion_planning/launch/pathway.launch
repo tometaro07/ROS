@@ -1,0 +1,5 @@
+<?xml version="2.0" encoding="UTF-8"?>
+<launch>
+  <!-- <rosparam file="$(find motion_planning)/config/waypoints.yaml" command="load"/> -->
+  <node pkg="motion_planning" type="waypointo.py" name="we_know_da_wae" output="screen"/>
+</launch>

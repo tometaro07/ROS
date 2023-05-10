@@ -1,0 +1,31 @@
+waypoints:
+  ponto1:
+    x: 2.5
+    y: 2.5
+    yawn: 0
+  ponto2:
+    x: -3
+    y: 1.2
+    yawn: 0.5
+  ponto3:
+    x: 2.7
+    y: -1
+    yawn: -0.617
+  ponto4:
+    x: 2.7
+    y: -1
+    yawn: -0.617
+  ponto5:
+    x: -0.6
+    y: 3.0
+    yawn: -0.999
+  corner2: 
+    x: -0.3
+    y: 3.0
+    yawn: -0.999
+da_wae:
+   - ponto1
+   - ponto2
+   - ponto3
+   - ponto5
+
